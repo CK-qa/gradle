@@ -21,10 +21,10 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.reflect.TypeToken;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.transform.ArtifactDependencies;
 import org.gradle.api.artifacts.transform.ArtifactTransformAction;
-import org.gradle.api.artifacts.transform.PrimaryInput;
-import org.gradle.api.artifacts.transform.PrimaryInputDependencies;
-import org.gradle.api.artifacts.transform.TransformParameters;
+import org.gradle.api.artifacts.transform.ArtifactTransformParameters;
+import org.gradle.api.artifacts.transform.InputArtifact;
 import org.gradle.api.artifacts.transform.VariantTransformConfigurationException;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
 import org.gradle.api.internal.project.ProjectStateRegistry;
@@ -45,8 +45,8 @@ import org.gradle.internal.hash.HashCode;
 import org.gradle.internal.hash.Hasher;
 import org.gradle.internal.hash.Hashing;
 import org.gradle.internal.instantiation.InstanceFactory;
-import org.gradle.internal.instantiation.Managed;
 import org.gradle.internal.instantiation.InstantiationScheme;
+import org.gradle.internal.instantiation.Managed;
 import org.gradle.internal.isolation.Isolatable;
 import org.gradle.internal.isolation.IsolatableFactory;
 import org.gradle.internal.service.ServiceLookup;
@@ -88,7 +88,7 @@ public class DefaultTransformer extends AbstractTransformer<ArtifactTransformAct
         this.valueSnapshotter = valueSnapshotter;
         this.propertyWalker = propertyWalker;
         this.instanceFactory = instantiationScheme.forType(implementationClass);
-        this.requiresDependencies = instanceFactory.serviceInjectionTriggeredByAnnotation(PrimaryInputDependencies.class);
+        this.requiresDependencies = instanceFactory.serviceInjectionTriggeredByAnnotation(ArtifactDependencies.class);
         this.projectStateHandler = projectStateHandler;
         this.isolationLock = projectStateHandler.newExclusiveOperationLock();
         this.isolateAction = parameterObject == null ? null : new WorkNodeAction() {
@@ -235,12 +235,12 @@ public class DefaultTransformer extends AbstractTransformer<ArtifactTransformAct
 
         public TransformServiceLookup(File inputFile, @Nullable Object parameters, @Nullable ArtifactTransformDependencies artifactTransformDependencies) {
             ImmutableList.Builder<InjectionPoint> builder = ImmutableList.builder();
-            builder.add(new InjectionPoint(PrimaryInput.class, File.class, inputFile));
+            builder.add(new InjectionPoint(InputArtifact.class, File.class, inputFile));
             if (parameters != null) {
-                builder.add(new InjectionPoint(TransformParameters.class, parameters.getClass(), parameters));
+                builder.add(new InjectionPoint(ArtifactTransformParameters.class, parameters.getClass(), parameters));
             }
             if (artifactTransformDependencies != null) {
-                builder.add(new InjectionPoint(PrimaryInputDependencies.class, artifactTransformDependencies.getFiles()));
+                builder.add(new InjectionPoint(ArtifactDependencies.class, artifactTransformDependencies.getFiles()));
             }
             this.injectionPoints = builder.build();
         }

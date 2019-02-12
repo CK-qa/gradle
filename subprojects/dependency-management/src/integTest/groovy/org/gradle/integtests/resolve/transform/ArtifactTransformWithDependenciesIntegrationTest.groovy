@@ -147,13 +147,13 @@ class Producer extends DefaultTask {
 
 abstract class TestTransformAction implements ArtifactTransformAction {
 
-    @TransformParameters
+    @ArtifactTransformParameters
     abstract TestTransform getParameters()
 
-    @PrimaryInputDependencies
+    @ArtifactDependencies
     abstract FileCollection getPrimaryInputDependencies()
 
-    @PrimaryInput
+    @InputArtifact
     abstract File getInput()
 
     void transform(ArtifactTransformOutputs outputs) {
@@ -170,7 +170,7 @@ abstract class TestTransformAction implements ArtifactTransformAction {
 
 abstract class SimpleTransform implements ArtifactTransformAction {
 
-    @PrimaryInput
+    @InputArtifact
     abstract File getInput()
 
     void transform(ArtifactTransformOutputs outputs) {

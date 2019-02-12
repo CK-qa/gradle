@@ -37,9 +37,9 @@ class ArtifactTransformWithFileInputsIntegrationTest extends AbstractDependencyR
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -160,7 +160,7 @@ class ArtifactTransformWithFileInputsIntegrationTest extends AbstractDependencyR
         setupBuildWithTransformFileInputs()
         buildFile << """
             abstract class MakeRedAction implements ArtifactTransformAction {
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
                 
                 void transform(ArtifactTransformOutputs outputs) {

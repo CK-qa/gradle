@@ -16,9 +16,9 @@
 
 package org.gradle.integtests.resolve.transform
 
-import org.gradle.api.artifacts.transform.PrimaryInput
-import org.gradle.api.artifacts.transform.PrimaryInputDependencies
-import org.gradle.api.artifacts.transform.TransformParameters
+import org.gradle.api.artifacts.transform.ArtifactDependencies
+import org.gradle.api.artifacts.transform.ArtifactTransformParameters
+import org.gradle.api.artifacts.transform.InputArtifact
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.Destroys
 import org.gradle.api.tasks.Input
@@ -70,9 +70,9 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -122,7 +122,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -171,7 +171,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -220,7 +220,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -239,7 +239,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
         failure.assertHasCause("Cannot use @${annotation.simpleName} annotation on method MakeGreen.getBad().")
 
         where:
-        annotation << [PrimaryInput, PrimaryInputDependencies, TransformParameters]
+        annotation << [InputArtifact, ArtifactDependencies, ArtifactTransformParameters]
     }
 
     def "transform action is validated for input output annotations"() {
@@ -267,7 +267,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
             }
             
             abstract class MakeGreenAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract MakeGreen getParameters()
                 
                 @InputFile
@@ -275,7 +275,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 
                 File notAnnotated 
 
-                @InputFile @PrimaryInput @PrimaryInputDependencies
+                @InputFile @InputArtifact @ArtifactDependencies
                 File getConflictingAnnotations() { } 
                 
                 void transform(ArtifactTransformOutputs outputs) {
@@ -291,7 +291,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
         failure.assertHasDescription('A problem occurred evaluating root project')
         failure.assertHasCause('Some problems were found with the configuration of MakeGreenAction.')
         failure.assertHasCause("Property 'conflictingAnnotations' is annotated with unsupported annotation @InputFile.")
-        failure.assertHasCause("Property 'conflictingAnnotations' has conflicting property types declared: @PrimaryInput, @PrimaryInputDependencies.")
+        failure.assertHasCause("Property 'conflictingAnnotations' has conflicting property types declared: @ArtifactDependencies, @InputArtifact.")
         failure.assertHasCause("Property 'inputFile' is annotated with unsupported annotation @InputFile.")
         failure.assertHasCause("Property 'notAnnotated' is not annotated with an input annotation.")
     }
@@ -363,9 +363,9 @@ project(':b') {
 }
 
 abstract class MakeGreen implements ArtifactTransformAction {
-    @PrimaryInputDependencies
+    @ArtifactDependencies
     abstract ${targetType} getDependencies()
-    @PrimaryInput
+    @InputArtifact
     abstract File getInput()
     
     void transform(ArtifactTransformOutputs outputs) {
@@ -434,7 +434,7 @@ abstract class MakeGreen extends ArtifactTransform {
         failure.assertHasCause("Cannot use @${annotation.simpleName} annotation on method MakeGreen.getInputFile().")
 
         where:
-        annotation << [PrimaryInput, PrimaryInputDependencies, TransformParameters]
+        annotation << [InputArtifact, ArtifactDependencies, ArtifactTransformParameters]
     }
 
     def "transform cannot receive parameter object via constructor parameter"() {
@@ -499,7 +499,7 @@ project(':a') {
 }
 
 abstract class MakeGreen implements ArtifactTransformAction {
-    @PrimaryInput
+    @InputArtifact
     abstract FileCollection getDependencies()
     
     void transform(ArtifactTransformOutputs outputs) {
@@ -571,6 +571,6 @@ abstract class MakeGreen implements ArtifactTransformAction {
         failure.assertHasCause("Cannot use @${annotation.simpleName} annotation on method MyTask.getThing().")
 
         where:
-        annotation << [PrimaryInput, PrimaryInputDependencies, TransformParameters]
+        annotation << [InputArtifact, ArtifactDependencies, ArtifactTransformParameters]
     }
 }

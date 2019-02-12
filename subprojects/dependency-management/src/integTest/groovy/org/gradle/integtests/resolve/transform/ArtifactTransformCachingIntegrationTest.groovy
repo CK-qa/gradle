@@ -1500,10 +1500,10 @@ ${getFileSizerBody(fileValue, 'new File(outputDirectory, ', 'new File(outputDire
                 void setValue(Number value)
             }
             abstract class FileSizerAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract FileSizer getParameters()
 
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
                 
                 void transform(ArtifactTransformOutputs outputs) {

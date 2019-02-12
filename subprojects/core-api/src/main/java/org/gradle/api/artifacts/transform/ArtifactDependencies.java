@@ -27,7 +27,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Attached to a property that should receive the <em>artifact dependencies</em> of the {@link PrimaryInput} of an artifact transform.
+ * Attached to a property that should receive the <em>artifact dependencies</em> of the {@link InputArtifact} of an artifact transform.
  *
  * The order of the files match that of the dependencies in the source artifact view.
  * The type of the injected dependencies is {@link org.gradle.api.file.FileCollection}.
@@ -39,5 +39,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Documented
 @InjectionPointQualifier(supportedTypes = FileCollection.class)
-public @interface PrimaryInputDependencies {
+public @interface ArtifactDependencies {
 }

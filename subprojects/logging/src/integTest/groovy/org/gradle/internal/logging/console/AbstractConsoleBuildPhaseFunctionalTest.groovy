@@ -337,11 +337,11 @@ abstract class AbstractConsoleBuildPhaseFunctionalTest extends AbstractIntegrati
             }
 
             abstract class FileSizerAction implements ArtifactTransformAction {
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract FileSizer getParameters()
-                @PrimaryInputDependencies
+                @ArtifactDependencies
                 abstract FileCollection getDependencies()
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
 
                 void transform(ArtifactTransformOutputs outputs) {

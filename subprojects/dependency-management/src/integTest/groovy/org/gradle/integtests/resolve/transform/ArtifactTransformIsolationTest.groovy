@@ -95,10 +95,10 @@ class Resolve extends Copy {
             abstract class CountRecorderAction implements ArtifactTransformAction {
                 private final Counter counter;
                             
-                @TransformParameters
+                @ArtifactTransformParameters
                 abstract CountRecorder getParameters()                  
 
-                @PrimaryInput
+                @InputArtifact
                 abstract File getInput()
 
                 CountRecorderAction() {

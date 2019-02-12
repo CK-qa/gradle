@@ -16,9 +16,9 @@
 
 package org.gradle.api.internal.artifacts;
 
-import org.gradle.api.artifacts.transform.PrimaryInput;
-import org.gradle.api.artifacts.transform.PrimaryInputDependencies;
-import org.gradle.api.artifacts.transform.TransformParameters;
+import org.gradle.api.artifacts.transform.ArtifactDependencies;
+import org.gradle.api.artifacts.transform.ArtifactTransformParameters;
+import org.gradle.api.artifacts.transform.InputArtifact;
 import org.gradle.api.internal.artifacts.ivyservice.DefaultIvyContextManager;
 import org.gradle.api.internal.artifacts.ivyservice.IvyContextManager;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.strategy.DefaultVersionComparator;
@@ -93,27 +93,27 @@ class DependencyManagementGlobalScopeServices {
         return ProducerGuard.adaptive();
     }
 
-    InjectAnnotationHandler createPrimaryInputAnnotationHandler() {
-        return new DefaultInjectAnnotationHandler(PrimaryInput.class);
+    InjectAnnotationHandler createInputArtifactAnnotationHandler() {
+        return new DefaultInjectAnnotationHandler(InputArtifact.class);
     }
 
-    InjectAnnotationHandler createPrimaryInputDependenciesAnnotationHandler() {
-        return new DefaultInjectAnnotationHandler(PrimaryInputDependencies.class);
+    InjectAnnotationHandler createArtifactDependenciesAnnotationHandler() {
+        return new DefaultInjectAnnotationHandler(ArtifactDependencies.class);
     }
 
-    InjectAnnotationHandler createTransformParametersAnnotationHandler() {
-        return new DefaultInjectAnnotationHandler(TransformParameters.class);
+    InjectAnnotationHandler createArtifactTransformParametersAnnotationHandler() {
+        return new DefaultInjectAnnotationHandler(ArtifactTransformParameters.class);
     }
 
-    PropertyAnnotationHandler createPrimaryInputPropertyAnnotationHandler() {
-        return new NoOpPropertyAnnotationHandler(PrimaryInput.class);
+    PropertyAnnotationHandler createInputArtifactPropertyAnnotationHandler() {
+        return new NoOpPropertyAnnotationHandler(InputArtifact.class);
     }
 
-    PropertyAnnotationHandler createPrimaryInputDependenciesPropertyAnnotationHandler() {
-        return new NoOpPropertyAnnotationHandler(PrimaryInputDependencies.class);
+    PropertyAnnotationHandler createArtifactDependenciesPropertyAnnotationHandler() {
+        return new NoOpPropertyAnnotationHandler(ArtifactDependencies.class);
     }
 
-    PropertyAnnotationHandler createTransformParametersPropertyAnnotationHandler() {
-        return new NoOpPropertyAnnotationHandler(TransformParameters.class);
+    PropertyAnnotationHandler createArtifactTransformParametersPropertyAnnotationHandler() {
+        return new NoOpPropertyAnnotationHandler(ArtifactTransformParameters.class);
     }
 }

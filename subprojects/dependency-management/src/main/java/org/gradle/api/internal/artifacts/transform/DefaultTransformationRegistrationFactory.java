@@ -18,11 +18,11 @@ package org.gradle.api.internal.artifacts.transform;
 
 import com.google.common.collect.ImmutableSet;
 import org.gradle.api.InvalidUserDataException;
+import org.gradle.api.artifacts.transform.ArtifactDependencies;
 import org.gradle.api.artifacts.transform.ArtifactTransform;
 import org.gradle.api.artifacts.transform.ArtifactTransformAction;
-import org.gradle.api.artifacts.transform.PrimaryInput;
-import org.gradle.api.artifacts.transform.PrimaryInputDependencies;
-import org.gradle.api.artifacts.transform.TransformParameters;
+import org.gradle.api.artifacts.transform.ArtifactTransformParameters;
+import org.gradle.api.artifacts.transform.InputArtifact;
 import org.gradle.api.internal.artifacts.ArtifactTransformRegistration;
 import org.gradle.api.internal.attributes.AttributeContainerInternal;
 import org.gradle.api.internal.attributes.ImmutableAttributes;
@@ -77,10 +77,10 @@ public class DefaultTransformationRegistrationFactory implements TransformationR
         this.instantiatorFactory = instantiatorFactory;
         this.transformerInvoker = transformerInvoker;
         this.valueSnapshotter = valueSnapshotter;
-        this.instantiationScheme = instantiatorFactory.injectScheme(ImmutableSet.of(PrimaryInput.class, PrimaryInputDependencies.class, TransformParameters.class));
+        this.instantiationScheme = instantiatorFactory.injectScheme(ImmutableSet.of(InputArtifact.class, ArtifactDependencies.class, ArtifactTransformParameters.class));
         this.propertyWalker = inspectionSchemeFactory.inspectionScheme(ImmutableSet.of(Input.class, InputFile.class, InputFiles.class, InputDirectory.class, Classpath.class, CompileClasspath.class, Nested.class)).getPropertyWalker();
         this.domainObjectProjectStateHandler = domainObjectProjectStateHandler;
-        this.actionMetadataStore = inspectionSchemeFactory.inspectionScheme(ImmutableSet.of(PrimaryInput.class, PrimaryInputDependencies.class, TransformParameters.class)).getMetadataStore();
+        this.actionMetadataStore = inspectionSchemeFactory.inspectionScheme(ImmutableSet.of(InputArtifact.class, ArtifactDependencies.class, ArtifactTransformParameters.class)).getMetadataStore();
     }
 
     @Override

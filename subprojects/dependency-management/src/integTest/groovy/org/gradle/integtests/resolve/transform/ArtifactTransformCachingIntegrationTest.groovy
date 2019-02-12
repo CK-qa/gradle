@@ -1493,7 +1493,7 @@ ${getFileSizerBody(fileValue, 'new File(outputDirectory, ', 'new File(outputDire
 
     String registerFileSizerWithParameterObject(String fileValue) {
         """                 
-            @TransformAction(FileSizerAction)
+            @AssociatedArtifactTransformAction(FileSizerAction)
             interface FileSizer {
                 @Input
                 Number getValue()

@@ -24,7 +24,7 @@ import org.gradle.api.artifacts.transform.ArtifactTransform;
 import org.gradle.api.artifacts.transform.ArtifactTransformAction;
 import org.gradle.api.artifacts.transform.ArtifactTransformSpec;
 import org.gradle.api.artifacts.transform.ParameterizedArtifactTransformSpec;
-import org.gradle.api.artifacts.transform.TransformAction;
+import org.gradle.api.artifacts.transform.AssociatedArtifactTransformAction;
 import org.gradle.api.artifacts.transform.VariantTransform;
 import org.gradle.api.artifacts.transform.VariantTransformConfigurationException;
 import org.gradle.api.attributes.AttributeContainer;
@@ -186,7 +186,7 @@ public class DefaultVariantTransformRegistry implements VariantTransformRegistry
         public TypedRegistration(T parameterObject, ImmutableAttributesFactory immutableAttributesFactory) {
             super(immutableAttributesFactory);
             this.parameterObject = parameterObject;
-            TransformAction transformAction = parameterObject.getClass().getAnnotation(TransformAction.class);
+            AssociatedArtifactTransformAction transformAction = parameterObject.getClass().getAnnotation(AssociatedArtifactTransformAction.class);
             if (transformAction != null) {
                 actionType = transformAction.value();
             }

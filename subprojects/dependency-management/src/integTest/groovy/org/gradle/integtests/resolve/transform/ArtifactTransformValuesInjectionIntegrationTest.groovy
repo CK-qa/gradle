@@ -62,7 +62,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 @Input
                 String getExtension()
@@ -109,7 +109,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 String getExtension()
                 void setExtension(String value)
@@ -160,7 +160,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 @Input
                 String getExtension()
@@ -210,7 +210,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 String getExtension()
                 void setExtension(String value)
@@ -259,7 +259,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 @Input
                 String getExtension()
@@ -314,7 +314,7 @@ class ArtifactTransformValuesInjectionIntegrationTest extends AbstractDependency
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 @Input
                 String getExtension()
@@ -454,7 +454,7 @@ abstract class MakeGreen extends ArtifactTransform {
                 }
             }
             
-            @TransformAction(MakeGreenAction)
+            @AssociatedArtifactTransformAction(MakeGreenAction)
             interface MakeGreen {
                 @Input
                 String getExtension()

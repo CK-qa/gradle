@@ -241,11 +241,11 @@ class DeleterTest extends Specification {
 
         and:
         def ex = thrown UnableToDeleteFileException
-        ex.message == normaliseLineSeparators("""
+        normaliseLineSeparators(ex.message) == """
             Unable to delete directory '$targetDir'
               Child files failed to delete! Is something holding files in the target directory?
               - $nonDeletable
-        """.stripIndent().trim())
+        """.stripIndent().trim()
     }
 
     def "reports new child files after failure to delete directory"() {
@@ -277,11 +277,11 @@ class DeleterTest extends Specification {
 
         and:
         def ex = thrown UnableToDeleteFileException
-        ex.message == normaliseLineSeparators("""
+        normaliseLineSeparators(ex.message) == """
             Unable to delete directory '$targetDir'
               New files were found after failure! Is something concurrently writing into the target directory?
               - $newFile
-        """.stripIndent().trim())
+        """.stripIndent().trim()
     }
 
     def "reports both failed to delete and new child files after failure to delete directory"() {
@@ -312,13 +312,13 @@ class DeleterTest extends Specification {
 
         and:
         def ex = thrown UnableToDeleteFileException
-        ex.message == normaliseLineSeparators("""
+        normaliseLineSeparators(ex.message) == """
             Unable to delete directory '$targetDir'
               Child files failed to delete! Is something holding files in the target directory?
               - $nonDeletable
               New files were found after failure! Is something concurrently writing into the target directory?
               - $newFile
-        """.stripIndent().trim())
+        """.stripIndent().trim()
     }
 
     def "fails fast and reports a reasonable number of paths after failure to delete directory"() {
@@ -353,18 +353,19 @@ class DeleterTest extends Specification {
 
         and: 'the report size is capped'
         def ex = thrown UnableToDeleteFileException
-        ex.message.startsWith(normaliseLineSeparators("""
+        def normalizedMessage = normaliseLineSeparators(ex.message)
+        normalizedMessage.startsWith("""
             Unable to delete directory '$targetDir'
               Child files failed to delete! Is something holding files in the target directory?
-              - $targetDir/zzz-
-        """.stripIndent().trim()))
-        ex.message.contains(normaliseLineSeparators("-zzz.txt\n  " + """
+              - $targetDir${File.separator}zzz-
+        """.stripIndent().trim())
+        normalizedMessage.contains("-zzz.txt\n  " + """
               - and more ...
               New files were found after failure! Is something concurrently writing into the target directory?
-              - $targetDir/aaa-
-        """.stripIndent(12).trim()))
-        ex.message.endsWith(normaliseLineSeparators("-aaa.txt\n  - and more ..."))
-        ex.message.readLines().size() == Deleter.MAX_REPORTED_PATHS * 2 + 5
+              - $targetDir${File.separator}aaa-
+        """.stripIndent(12).trim())
+        normalizedMessage.endsWith("-aaa.txt\n  - and more ...")
+        normalizedMessage.readLines().size() == Deleter.MAX_REPORTED_PATHS * 2 + 5
     }
 
     def Action<? super DeleteSpec> deleteAction(final boolean followSymlinks, final Object... paths) {
